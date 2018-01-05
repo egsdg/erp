@@ -49,8 +49,18 @@ echo -e "\n---- Setting permissions on home folder ----"
 sudo chown -R $OE_USER:$OE_USER $OE_HOME/*
 
 echo -e "* Create server config file"
-
+sudo cp /home/ubuntu/workspace/odoo.service /lib/systemd/system/odoo.service
+sudo cp /home/ubuntu/workspace/odoo/debian/odoo.conf /etc/odoo/odoo.conf
+sudo touch /lib/systemd/system/odoo.service
 sudo touch /etc/odoo/${OE_CONFIG}.conf
+
+sudo chmod 755 /lib/systemd/system/odoo.service
+sudo chown root: /lib/systemd/system/odoo.service
+sudo chown -R odoo: /home/ubuntu/workspace/odoo/
+sudo chown odoo: /etc/odoo/odoo.conf
+sudo chmod 640 /etc/odoo/odoo.conf
+sudo systemctl start odoo
+sudo systemctl status odoo
 echo -e "* Creating server config file"
 
 sudo su root -c "printf 'xmlrpc_port = ${OE_PORT}\n' >> /etc/odoo/${OE_CONFIG}.conf"
